@@ -13,7 +13,8 @@ Crypto market tracker for Wear OS with a planned Android phone companion. Shows 
 - **ViewModel**: AndroidX `ViewModel` + coroutines. Exposes immutable `StateFlow<UiState>`; no Android views, HTTP, JSON, or persistence code inside. Handle coroutine cancellation correctly.
 - **Domain**: models always; use cases only where they carry reusable business rules. Financial calculations and rules stay out of composables.
 - **Data**: repository interfaces + implementations; Binance client, DTOs, and mappers live in data packages/modules.
-- **DI**: manual constructor injection into ViewModels and repositories (via ViewModel factories). No DI framework, service locator, or generic base ViewModel without a demonstrated need.
+- **DI**: manual constructor injection into ViewModels and repositories (via ViewModel factories). A plain `AppContainer` created in the `Application` class holds singletons (OkHttpClient, repository, Clock) and is passed explicitly, not accessed globally. No DI framework (Hilt/Koin/Dagger), service locator, or generic base ViewModel without a demonstrated need.
+- **Networking**: OkHttp + kotlinx.serialization, confined to the data layer (not yet in the version catalog).
 - **State**: loading, success, empty, stale-data, and error are explicit in `UiState`.
 - **Modules**: phone and watch each apply MVVM with their own presentation layer. Share only non-UI code where responsibility and platform justify it; don't force composables/ViewModels into a shared module to avoid duplication. Add a phone module only after asking.
 - **Phone ↔ watch**: Wear OS Data Layer only for watchlist/selection/alert config, behind an abstraction (never used directly by composables or ViewModels). Market data is fetched directly by each app.

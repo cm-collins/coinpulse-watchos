@@ -31,7 +31,7 @@ Always pass explicit `symbols` (never omit — omitting returns every market and
 5. **UI state** is built by ViewModels (MVVM, see root `CLAUDE.md`) from domain models (see `wear-ui`). ViewModels receive the repository interface by constructor and contain no HTTP, JSON, or persistence code. Add use cases only for reusable business rules, not as pass-through wrappers.
 6. **Wiring**: construct the client and repository manually (e.g. in the `Application` or a ViewModel factory); no DI framework or service locator. A repository exposing polling should be cancellation-safe so the ViewModel can scope it to `viewModelScope`.
 
-Use whichever HTTP/JSON libraries the repo already declares in `libs.versions.toml`. If none exist, pick the smallest viable set (e.g. OkHttp + kotlinx.serialization), confirm versions are compatible with the pinned Kotlin/AGP, and add them via the version catalog only.
+**Decided: OkHttp for HTTP** (no Ktor, no Retrofit) **and kotlinx.serialization for JSON**; use `MockWebServer` in tests. None are in `libs.versions.toml` yet: when first needed, confirm versions are compatible with the pinned Kotlin/AGP against official docs and add them via the version catalog only (the serialization Gradle plugin goes through the catalog too). Keep OkHttp types inside the data layer.
 
 ## Decimal correctness
 - Parse with `BigDecimal(string)` (not `toBigDecimal()` on a `Double`, not `Double.parseDouble`). Reject blank/`NaN`/non-numeric strings with a parse error.
