@@ -12,6 +12,9 @@ This skill covers *presentation only*. For general Wear Compose Material 3 API u
 2. Check which modules exist. At the time this skill was written only the watch module `:app` (package `com.example.coinpulse.presentation`) existed; there was no phone module. If a phone UI is requested and no phone module exists, stop and ask before scaffolding one.
 3. Look up any version-sensitive component in official docs (developer.android.com/design/ui/wear, developer.android.com/training/wearables) rather than recalling from memory.
 
+## Visual language
+Follow `docs/DESIGN.md` ("Obsidian": OLED black, restrained palette, Roboto Flex, Material Symbols, gain/loss always paired with sign + arrow). It is a proposal until implemented; update it when the theme code changes and re-check contrast for any new color.
+
 ## Design rules
 - **Glanceable**: one primary task per screen (see current price movement). A reading should take seconds. Push configuration, long lists of settings, and anything typing-heavy to the phone.
 - **Round-screen safety**: use `ScreenScaffold` + `TransformingLazyColumn` with the `contentPadding` the scaffold provides; do not hand-pad to corners. Never place critical text in the extreme corners. Test on a small round and a large round preview.
