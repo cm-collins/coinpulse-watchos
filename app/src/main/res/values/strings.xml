@@ -1,4 +1,37 @@
 <resources>
     <string name="app_name">coinpulse</string>
-    <string name="hello_world">Hello, %1$s!</string>
+    <string name="brand_title">CoinPulse</string>
+
+    <string name="freshness_sample">Sample data · %1$s</string>
+    <string name="freshness_stale">Stale · %1$s</string>
+    <string name="freshness_refresh_failed">Couldn\'t refresh · %1$s</string>
+    <string name="freshness_refreshing">Refreshing…</string>
+    <string name="freshness_loading">Loading…</string>
+    <string name="freshness_sample_stale">Sample data, stale · %1$s</string>
+    <string name="freshness_updated">Updated %1$s</string>
+
+    <string name="row_description_up">%1$s against %2$s, price %3$s, up %4$s percent</string>
+    <string name="row_description_down">%1$s against %2$s, price %3$s, down %4$s percent</string>
+    <string name="row_description_flat">%1$s against %2$s, price %3$s, unchanged</string>
+    <string name="range_description">%1$d percent of the way from the 24 hour low to the high</string>
+    <string name="breadth_description">%1$d up, %2$d down</string>
+    <string name="detail_low">24h low</string>
+    <string name="detail_high">24h high</string>
+    <string name="chart_description">Price over the last 24 hours, started at %1$s, now %2$s</string>
+    <string name="chart_loading_description">Loading chart</string>
+    <string name="chart_unavailable_title">Chart unavailable</string>
+    <string name="loading_description">Loading prices</string>
+
+    <string name="action_refresh">Refresh</string>
+    <string name="action_retry">Retry</string>
+
+    <string name="empty_title">No coins yet</string>
+    <string name="empty_message">Your watchlist is empty.</string>
+
+    <string name="error_offline_title">You\'re offline</string>
+    <string name="error_offline_message">Check the connection and try again.</string>
+    <string name="error_rate_limited_title">Too many requests</string>
+    <string name="error_rate_limited_message">Wait a moment, then try again.</string>
+    <string name="error_unknown_title">Something went wrong</string>
+    <string name="error_unknown_message">Prices couldn\'t be loaded.</string>
 </resources>

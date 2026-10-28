@@ -92,6 +92,26 @@ Computed contrast (WCAG): onSurface/background 18.24:1; onSurface/surfaceContain
 - [ ] Consistent spacing scale and icon weight.
 - [ ] Screenshots reviewed on small and large round emulators and at both font extremes.
 
+## Implementation status (watchlist dashboard, first milestone)
+Implemented in `presentation/theme/` and `presentation/watchlist/`. Palette, spacing scale, and gain/loss/stale colors follow this document. Deviations and decisions, with reasons:
+- **Typography: system font, no Roboto Flex bundled.** The library's `numeral*` roles are documented as tabular by default and `MaterialTheme.typography` roles are used with no hard-coded sizes. Bundling Roboto Flex was not justified: its license and the Wear font-integration path were not verified, and it adds APK size.
+- **Roles not specified above** (secondary, on-tertiary/containers, error container, primary-dim) were filled with neutral/derived values in `Color.kt` so no default Material colors leak in. These are unreviewed and unchecked for contrast.
+- **Arrow** is a small drawn triangle/dash (Canvas), not the "▲/▼" text glyph or an icon, to avoid font-glyph coverage and an icon dependency. It is decorative; the card's content description carries direction.
+- **Header** merges the brand title and the freshness line into one compact item so a single coin fits above the edge button. Otherwise the scaffold shrinks the edge button and hides its label until the user scrolls.
+- **Sample data** is labeled "Sample data · time" in the freshness line, and "Sample data, stale" when old. It is never presented as live.
+- **Cards** have no action yet (semantics replaced so TalkBack does not announce them as clickable); `Card` requires an `onClick`, so the press ripple still shows.
+- **Reduced motion**: only the library's placeholder shimmer animates, and the library disables it under its reduced-motion setting. No custom animations.
+- **Visual upgrade (second pass).** Added on top of the first dashboard, all drawn with Compose primitives (no new dependencies, no extra API calls):
+  - a **24h range bar** per coin (track, fill, marker) using the `highPrice`/`lowPrice` already in the ticker response; position is computed in BigDecimal in the domain and only the final Float is used for drawing;
+  - a tinted **change pill** (arrow + signed percent), a thin direction-tinted **ring** on the monogram, and **breadth chips** ("up N / down N") above the list;
+  - a **pulse mark** (tiny ECG line in `primary`) beside the brand name;
+  - the watchlist now tracks BTC, ETH, SOL, XRP and ADA (USDT pairs) and scrolls.
+- **Deliberate deviation from the checklist below:** "gain/loss color only on change values" is relaxed: gain/loss are also used as low-alpha tints (card glow on the leading edge at 16%, pill and chip backgrounds at 16%). They only reinforce the sign, arrow and label; direction is never carried by color alone. Computed contrast for pill text (worst realistic position): gain 7.1:1, loss 5.1:1; body text on the tinted card stays above 11:1; muted text 5.2:1.
+- The range bar adds a TalkBack phrase ("N percent of the way from the 24 hour low to the high"); lint suggests plurals for two new strings (not addressed).
+- **Coin detail screen (third pass).** Tapping a card opens a detail screen: centered header (monogram, symbol, change pill), hero price (`numeralSmall`), a **24h sparkline** (96 fifteen-minute closes from Binance klines), and 24h low/high. The sparkline is a Compose Canvas line with a soft gradient fill in the direction color, a dashed "price 24h ago" reference line, and a glowing marker on the latest price; prices are normalized in BigDecimal and only the result is converted to Float for drawing. Chart loading uses the library placeholder; chart failure shows "Chart unavailable" plus a Retry edge button while the price, change and range (from the watchlist) stay visible.
+- **Navigation** uses the official stateful `SwipeToDismissBox` pattern (swipe right to go back, list stays composed behind and keeps its scroll position); no navigation library. Rows that span the full width are avoided on the detail screen because they clip where the round display is narrow.
+- **Not yet validated:** real hardware, small round displays, TalkBack by ear, contrast of the derived roles. Previews compile but were not rendered in Android Studio in this environment.
+
 ## 10. Implementation notes (when we build it)
 - Theme code lives in `presentation/theme/` (`Color.kt`, `Type.kt`, `Theme.kt`, `CoinPulseColors`). Extend the existing `CoinpulseTheme`; no new design-system module.
 - Fonts/resources only through Gradle resources and the version catalog; no external CDNs at runtime.

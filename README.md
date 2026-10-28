@@ -2,7 +2,7 @@
 
 A crypto market tracker for **Wear OS**, with a planned Android phone companion. It shows public cryptocurrency prices and 24h movements from Binance's public market-data API.
 
-> **Status: early scaffold.** The repository currently contains the Android Studio Wear OS Compose starter (a placeholder screen). No Binance integration, data layer, phone app, or tests exist yet.
+> **Status: early development.** The watch app shows a live five-coin watchlist (BTC, ETH, SOL, XRP, ADA) from Binance public market data (auto-polls every 30 s while visible, plus manual refresh). Tapping a coin opens a detail screen with a 24h sparkline. The phone companion and sync are not built yet.
 
 ## Scope
 
